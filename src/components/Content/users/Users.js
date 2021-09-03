@@ -1,41 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row } from "react-bootstrap";
 import UserItems from "./UserItems";
+import { Spinners } from "../../Layout/Spinners";
 
-const Users = () => {
-  const [Users, setUsers] = useState([
-    {
-      id: "1",
-      login: "mojombo",
-      avatar_url: "https://avatars.githubusercontent.com/u/1?v=4",
-      html_url: "https://github.com/mojombo",
-    },
-    {
-      id: "1",
-      login: "mojombo",
-      avatar_url: "https://avatars.githubusercontent.com/u/1?v=4",
-      html_url: "https://github.com/mojombo",
-    },
-    {
-      id: "1",
-      login: "mojombo",
-      avatar_url: "https://avatars.githubusercontent.com/u/1?v=4",
-      html_url: "https://github.com/mojombo",
-    },
-  ]);
-  return (
-    <Container>
-      <Row className="mt-5">
-        {Users.map((el) => {
-          return <UserItems user={el} key={el.id} />;
-        })}
-      </Row>
-    </Container>
-  );
+
+const Users = ({ users, loading }) => {
+  if (loading) {
+    return <Spinners />;
+  } else {
+    return (
+      <Container>
+        <Row className="mt-5">
+          {users.map((el) => {
+            return <UserItems user={el} key={el.id} />;
+          })}
+        </Row>
+      </Container>
+    );
+  }
 };
 
 Users.prototype = {
-  Users: PropTypes.array.isRequired,
+  users: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 export default Users;

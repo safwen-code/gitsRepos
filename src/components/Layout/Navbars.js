@@ -1,18 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Navbar,
-  Container,
-  Nav,
-  FormControl,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import Search from "../Content/users/Search";
 
-const Navbars = ({titel}) => {
+const Navbars = ({ titel , searchuser }) => {
+   
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark" s>
         <Container>
           <Navbar.Brand href="#home">{titel}</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -22,17 +17,7 @@ const Navbars = ({titel}) => {
               <Nav.Link href="#pricing">Pricing</Nav.Link>
             </Nav>
 
-            <Form className="d-flex">
-              <FormControl
-                type="search"
-                placeholder="Search"
-                className="mr-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success" className="ms-3">
-                Search Engine
-              </Button>
-            </Form>
+            <Search  searchuser={searchuser}/>
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -41,6 +26,7 @@ const Navbars = ({titel}) => {
 };
 Navbar.defaultProps = {
   titel: "githubFinder",
+  searchuser:PropTypes.func.isRequired,
 };
 Navbars.propTypes = {
   titel: PropTypes.string.isRequired,
