@@ -12,7 +12,7 @@ class SearchBar extends Component {
   onsubmitHundler = (e) => {
     e.preventDefault();
     console.log("hello Search");
-    this.props.searchuser(this.state.text)
+    this.props.searchuser(this.state.text);
   };
   render() {
     const { text } = this.state;
@@ -34,6 +34,15 @@ class SearchBar extends Component {
         >
           Search Engine
         </Button>
+        {this.props.ShowClearBtn && (
+          <Button
+            variant="outline-danger"
+            className="ms-3"
+            onClick={this.props.clearUser}
+          >
+            Clear Users
+          </Button>
+        )}
       </Form>
     );
   }
