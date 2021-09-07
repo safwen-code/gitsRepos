@@ -5,29 +5,45 @@ import Users from "./components/Content/users/Users";
 import { Component } from "react";
 import axios from "axios";
 
-import { CLIENT_ID, SECRET_CLIENT } from "./components/Variabal";
+import { CLIENT_ID, SECRET_CLIENT } from "./components/Variaval";
 
 class App extends Component {
   state = {
     users: [],
     loading: false,
   };
-  async componentDidMount() {
+
+  //show all githubuser
+  // async componentDidMount() {%
+  //   try {
+  //     this.setState({ loading: true });
+  //     const res = await axios.get(
+  //       `https://api.github.com/users?client_id =${CLIENT_ID}&client_secret=${SECRET_CLIENT}`
+  //     );
+  //     console.log("result", res);
+  //     this.setState({
+  //       users: res.data,
+  //     });
+  //     this.setState({ loading: false });
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // }
+  //search for spicifec githuber
+  searchuser = async (text) => {
     try {
-      this.setState({ loading: true });
-      const res = await axios.get(`https://api.github.com/users?client_id =${CLIENT_ID}&client_secret=${SECRET_CLIENT}`);
-      console.log("result", res);
+      const res =
+        await axios.get(`https://api.github.com/search/users?q=${text}&client_id =${CLIENT_ID}
+      &client_secret=${SECRET_CLIENT}`);
       this.setState({
-        users: res.data,
+        users: res.data.items,
+        loading: true,
       });
-      this.setState({ loading: false });
+      console.log("search user function", text);
     } catch (err) {
-      console.error(err.message);
+      console.error(err.msg);
     }
-  }
-  searchuser = (text) =>{
-    console.log("search user function" , text)
-  }
+  };
   render() {
     const { users, loading } = this.state;
     return (
