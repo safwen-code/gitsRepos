@@ -12,10 +12,18 @@ class SearchBar extends Component {
   onsubmitHundler = (e) => {
     e.preventDefault();
     console.log("hello Search");
-    this.props.searchuser(this.state.text);
+    if (this.state.text === "") {
+      this.props.setAlert("please give me a name", "danger");
+    } else {
+      this.props.searchuser(this.state.text);
+      this.setState({
+        text: "",
+      });
+    }
   };
   render() {
     const { text } = this.state;
+    const { clearUser, ShowClearBtn } = this.props;
     return (
       <Form className="d-flex">
         <FormControl
@@ -34,12 +42,8 @@ class SearchBar extends Component {
         >
           Search Engine
         </Button>
-        {this.props.ShowClearBtn && (
-          <Button
-            variant="outline-danger"
-            className="ms-3"
-            onClick={this.props.clearUser}
-          >
+        {ShowClearBtn && (
+          <Button variant="outline-danger" className="ms-3" onClick={clearUser}>
             Clear Users
           </Button>
         )}

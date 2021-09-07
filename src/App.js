@@ -1,16 +1,20 @@
 import "./App.css";
-import Navbars from "./components/Layout/Navbars";
-import { Container } from "react-bootstrap";
-import Users from "./components/Content/users/Users";
-import { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import axios from "axios";
 
 import { CLIENT_ID, SECRET_CLIENT } from "./components/Variaval";
-
+import Navbars from "./components/Layout/Navbars";
+import Users from "./components/Content/users/Users";
+import Alerts from "./components/Layout/Alerts";
+import { Container } from "react-bootstrap";
+import { About } from "./components/Layout/About";
 class App extends Component {
   state = {
     users: [],
     loading: false,
+    alert: null,
   };
 
   //show all githubuser
@@ -32,6 +36,9 @@ class App extends Component {
   //search for spicifec githuber
   searchuser = async (text) => {
     try {
+      this.setState({
+        loading: false,
+      });
       const res =
         await axios.get(`https://api.github.com/search/users?q=${text}&client_id =${CLIENT_ID}
       &client_secret=${SECRET_CLIENT}`);
@@ -44,13 +51,56 @@ class App extends Component {
       console.error(err.msg);
     }
   };
+  //Clear All User
+  clearUser = (e) => {
+    console.log("clear user");
+    this.setState({
+      users: [],
+      loading: false,
+    });
+  };
+  setAlert = (msg, type) => {
+    this.setState({
+      alert: {
+        msg,
+        type,
+      },
+    });
+    setTimeout(
+      () =>
+        this.setState({
+          alert: null,
+        }),
+      5000
+    );
+  };
   render() {
-    const { users, loading } = this.state;
+    const { users, loading, alert } = this.state;
     return (
-      <Container fluid>
-        <Navbars titel={"github"} searchuser={this.searchuser} />
-        <Users users={users} loading={loading} />
-      </Container>
+      <Router>
+        <Navbars
+          titel={"github"}
+          searchuser={this.searchuser}
+          clearUser={this.clearUser}
+          ShowClearBtn={users.length > 0 ? true : false}
+          setAlert={this.setAlert}
+        />
+        <Container fluid>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <Fragment>
+                  <Alerts alert={alert} />
+                  <Users users={users} loading={loading} />
+                </Fragment>
+              )}
+            />
+            <Route path="/about" component={About} />
+          </Switch>
+        </Container>
+      </Router>
     );
   }
 }
