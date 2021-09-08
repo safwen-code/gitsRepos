@@ -9,7 +9,16 @@ import {
   GET_REPOS,
   CLEAR_USERS,
 } from "./Type";
-import { CLIENT_ID, SECRET_CLIENT } from "../../components/Variaval";
+let githubClientID;
+let githubClientSecret;
+
+if (process.env.NODE_ENV !== "production") {
+  githubClientID = process.env.REACT_APP_CLIENT_ID;
+  githubClientSecret = process.env.REACT_APP_SECRET_CLIENT;
+} else {
+  githubClientID = process.env.CLIENT_ID;
+  githubClientSecret = process.env.SECRET_CLIENT;
+}
 
 const GithubState = (props) => {
   const initialState = {
@@ -30,8 +39,8 @@ const GithubState = (props) => {
     try {
       setLoading(true);
       const res =
-        await axios.get(`https://api.github.com/search/users?q=${text}&client_id =${CLIENT_ID}
-      &client_secret=${SECRET_CLIENT}`);
+        await axios.get(`https://api.github.com/search/users?q=${text}&client_id =${githubClientID}
+      &client_secret=${githubClientSecret}`);
       dispatch({ type: SEARCH_USERS, payload: res.data.items });
       console.log("search user function", text);
     } catch (err) {
@@ -44,8 +53,8 @@ const GithubState = (props) => {
     try {
       setLoading();
       const res =
-        await axios.get(`https://api.github.com/users/${username}?client_id =${CLIENT_ID}
-      &client_secret=${SECRET_CLIENT}`);
+        await axios.get(`https://api.github.com/users/${username}?client_id =${githubClientID}
+      &client_secret=${githubClientSecret}`);
       dispatch({ type: GET_USER, payload: res.data });
     } catch (err) {
       console.error(err.msg);
@@ -56,8 +65,8 @@ const GithubState = (props) => {
     setLoading();
     try {
       const res =
-        await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id =${CLIENT_ID}
-      &client_secret=${SECRET_CLIENT}`);
+        await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id =${githubClientID}
+      &client_secret=${githubClientSecret}`);
       dispatch({ type: GET_REPOS, payload: res.data });
     } catch (err) {
       console.error(err.msg);
