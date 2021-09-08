@@ -4,7 +4,7 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import SearchBar from "../Content/users/SearchBar";
 import { LinkContainer } from "react-router-bootstrap";
 
-const Navbars = ({ titel, searchuser, ShowClearBtn, clearUser, setAlert }) => {
+const Navbars = ({ titel}) => {
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -14,18 +14,13 @@ const Navbars = ({ titel, searchuser, ShowClearBtn, clearUser, setAlert }) => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               <LinkContainer to="/">
-                <Nav.Link>Features</Nav.Link>
+                <Nav.Link>Home</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/about">
-                <Nav.Link>Pricing</Nav.Link>
+                <Nav.Link>About</Nav.Link>
               </LinkContainer>
             </Nav>
-            <SearchBar
-              searchuser={searchuser}
-              ShowClearBtn={ShowClearBtn}
-              clearUser={clearUser}
-              setAlert={setAlert}
-            />
+            <SearchBar />
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -37,10 +32,6 @@ Navbar.defaultProps = {
 };
 Navbars.propTypes = {
   titel: PropTypes.string.isRequired,
-  searchuser: PropTypes.func.isRequired,
-  ShowClearBtn: PropTypes.bool,
-  clearUser: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired,
 };
 
 export default Navbars;

@@ -1,21 +1,17 @@
 import "./App.css";
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import axios from "axios";
-
-import { CLIENT_ID, SECRET_CLIENT } from "./components/Variaval";
+import GithubState from "./Context/github/GithubState";
 import Navbars from "./components/Layout/Navbars";
 import Users from "./components/Content/users/Users";
 import Alerts from "./components/Layout/Alerts";
 import { Container } from "react-bootstrap";
 import { About } from "./components/Layout/About";
-class App extends Component {
-  state = {
-    users: [],
-    loading: false,
-    alert: null,
-  };
+import User from "./components/Content/users/User";
+import PropTypes from "prop-types";
+
+const App = () => {
 
   //show all githubuser
   // async componentDidMount() {%
@@ -33,58 +29,12 @@ class App extends Component {
   //     console.error(err.message);
   //   }
   // }
-  //search for spicifec githuber
-  searchuser = async (text) => {
-    try {
-      this.setState({
-        loading: false,
-      });
-      const res =
-        await axios.get(`https://api.github.com/search/users?q=${text}&client_id =${CLIENT_ID}
-      &client_secret=${SECRET_CLIENT}`);
-      this.setState({
-        users: res.data.items,
-        loading: true,
-      });
-      console.log("search user function", text);
-    } catch (err) {
-      console.error(err.msg);
-    }
-  };
-  //Clear All User
-  clearUser = (e) => {
-    console.log("clear user");
-    this.setState({
-      users: [],
-      loading: false,
-    });
-  };
-  setAlert = (msg, type) => {
-    this.setState({
-      alert: {
-        msg,
-        type,
-      },
-    });
-    setTimeout(
-      () =>
-        this.setState({
-          alert: null,
-        }),
-      5000
-    );
-  };
-  render() {
-    const { users, loading, alert } = this.state;
-    return (
+  
+
+  return (
+    <GithubState>
       <Router>
-        <Navbars
-          titel={"github"}
-          searchuser={this.searchuser}
-          clearUser={this.clearUser}
-          ShowClearBtn={users.length > 0 ? true : false}
-          setAlert={this.setAlert}
-        />
+        <Navbars titel={"github"}  />
         <Container fluid>
           <Switch>
             <Route
@@ -92,17 +42,24 @@ class App extends Component {
               path="/"
               render={(props) => (
                 <Fragment>
-                  <Alerts alert={alert} />
-                  <Users users={users} loading={loading} />
+                  <Alerts  />
+                  <Users />
                 </Fragment>
               )}
             />
+            <Route exact path="/user/:login" component={User} />
+
             <Route path="/about" component={About} />
           </Switch>
         </Container>
       </Router>
-    );
-  }
-}
+    </GithubState>
+  );
+};
+
+App.propTypes = {
+  setAlert: PropTypes.func,
+  alert: PropTypes.object,
+};
 
 export default App;

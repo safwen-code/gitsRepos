@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card } from "react-bootstrap";
+import { Card ,Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 const UserItems = ({ user: { login, avatar_url, html_url, id } }) => {
   return (
@@ -8,7 +9,9 @@ const UserItems = ({ user: { login, avatar_url, html_url, id } }) => {
       <Card.Img variant="top" src={avatar_url} className="round-img" />
       <Card.Body>
         <Card.Title>{login}</Card.Title>
-        <Card.Link href={html_url}>Card Link</Card.Link>
+        <LinkContainer to={`user/${login}`}>
+          <Button className="d-flex justify-content-center mt-5">More</Button>
+        </LinkContainer>
       </Card.Body>
     </Card>
   );

@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Container, Row } from "react-bootstrap";
 import UserItems from "./UserItems";
+import GithubContext from "../../../Context/github/GithubContext";
 
-const Users = ({ users }) => {
+const Users = () => {
+  const githubContext = useContext(GithubContext);
+  const { loading, Users } = githubContext;
   return (
     <Container>
       <Row className="mt-5">
-        {users.map((el) => {
+        {Users.map((el) => {
           return <UserItems user={el} key={el.id} />;
         })}
       </Row>
@@ -15,7 +18,5 @@ const Users = ({ users }) => {
   );
 };
 
-Users.prototype = {
-  users: PropTypes.array.isRequired,
-};
+Users.prototype = {};
 export default Users;
