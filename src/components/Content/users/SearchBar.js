@@ -1,54 +1,53 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Form, FormControl, Button } from "react-bootstrap";
-class SearchBar extends Component {
-  state = {
-    text: "",
+import PropTypes from "prop-types";
+
+const SearchBar = ({ setAlert, searchuser, ShowClearBtn, clearUser }) => {
+  const [text, settext] = useState("");
+
+  const onchangeHundler = (e) => {
+    settext(e.target.value);
   };
-  onchangeHundler = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-  onsubmitHundler = (e) => {
+  const onsubmitHundler = (e) => {
     e.preventDefault();
     console.log("hello Search");
-    if (this.state.text === "") {
-      this.props.setAlert("please give me a name", "danger");
+    if (text === "") {
+      setAlert("please give me a name", "danger");
     } else {
-      this.props.searchuser(this.state.text);
-      this.setState({
-        text: "",
-      });
+      searchuser(text);
+      settext("");
     }
   };
-  render() {
-    const { text } = this.state;
-    const { clearUser, ShowClearBtn } = this.props;
-    return (
-      <Form className="d-flex">
-        <FormControl
-          type="search"
-          placeholder="Search"
-          className="mr-2"
-          aria-label="Search"
-          name="text"
-          value={text}
-          onChange={(e) => this.onchangeHundler(e)}
-        />
-        <Button
-          variant="outline-success"
-          className="ms-3"
-          onClick={(e) => this.onsubmitHundler(e)}
-        >
-          Search Engine
+  return (
+    <Form className="d-flex">
+      <FormControl
+        type="search"
+        placeholder="Search"
+        className="mr-2"
+        aria-label="Search"
+        name="text"
+        value={text}
+        onChange={onchangeHundler}
+      />
+      <Button
+        variant="outline-success"
+        className="ms-3"
+        onClick={onsubmitHundler}
+      >
+        Search Engine
+      </Button>
+      {ShowClearBtn && (
+        <Button variant="outline-danger" className="ms-3" onClick={clearUser}>
+          Clear Users
         </Button>
-        {ShowClearBtn && (
-          <Button variant="outline-danger" className="ms-3" onClick={clearUser}>
-            Clear Users
-          </Button>
-        )}
-      </Form>
-    );
-  }
-}
+      )}
+    </Form>
+  );
+};
+SearchBar.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  searchuser: PropTypes.func.isRequired,
+  ShowClearBtn: PropTypes.bool,
+  clearUser: PropTypes.func.isRequired,
+};
 export default SearchBar;

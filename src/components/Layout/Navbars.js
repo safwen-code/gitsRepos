@@ -14,10 +14,10 @@ const Navbars = ({ titel, searchuser, ShowClearBtn, clearUser, setAlert }) => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               <LinkContainer to="/">
-                <Nav.Link>Features</Nav.Link>
+                <Nav.Link>Home</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/about">
-                <Nav.Link>Pricing</Nav.Link>
+                <Nav.Link>About</Nav.Link>
               </LinkContainer>
             </Nav>
             <SearchBar
