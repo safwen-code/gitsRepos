@@ -1,15 +1,11 @@
-<<<<<<< HEAD
 import React, { useContext, useEffect } from "react";
-=======
-import React, { useEffect } from "react";
->>>>>>> 17e5bacd4b1ce49450a0f04b089ea5f1feff89b1
+
 import { Container, Row, Col, Button, Card, Badge } from "react-bootstrap";
 import { FcApproval } from "react-icons/fc";
 import { FaRoute } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Repos from "./Repos";
-import PropTypes from "prop-types";
-<<<<<<< HEAD
+
 import GithubContext from "../../../Context/github/GithubContext";
 
 const User = ({ match }) => {
@@ -18,15 +14,7 @@ const User = ({ match }) => {
   useEffect(() => {
     getUser(match.params.login);
     getRepos(match.params.login);
-  }, [match.params.login]);
-=======
-
-const User = ({ user, repos, getUser, getRepos, match }) => {
-  useEffect(() => {
-    getUser(match.params.login);
-    getRepos(match.params.login);
-  }, [getUser, getRepos]);
->>>>>>> 17e5bacd4b1ce49450a0f04b089ea5f1feff89b1
+  }, [getUser, getRepos, match.params.login]);
 
   const {
     name,
@@ -103,16 +91,6 @@ const User = ({ user, repos, getUser, getRepos, match }) => {
       </Row>
     </Container>
   );
-};
-
-User.propTypes = {
-<<<<<<< HEAD
-=======
-  user: PropTypes.object.isRequired,
-  repos: PropTypes.array.isRequired,
-  getUser: PropTypes.func.isRequired,
-  getRepos: PropTypes.func.isRequired,
->>>>>>> 17e5bacd4b1ce49450a0f04b089ea5f1feff89b1
 };
 
 export default User;
